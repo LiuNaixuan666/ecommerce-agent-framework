@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "question": "本店是否有《三体》？",
+    "merchant": "merchant_a",
+    "ground_truth": "有，《三体》由刘慈欣著，库存可见产品目录。",
+    "source": "merchant_a/products/books_catalog.csv"
+  }
+]

@@ -1,0 +1,6 @@
+__pycache__/
+.env
+venv/
+*.db
+data/merchants/*
+!data/merchants/.gitkeep

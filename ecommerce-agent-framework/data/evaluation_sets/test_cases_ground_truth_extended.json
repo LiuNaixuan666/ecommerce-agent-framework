@@ -1,0 +1,2767 @@
+[
+  {
+    "id": 1,
+    "question": "本店是否有《三体》？",
+    "merchant": "merchant_a",
+    "expected_answer": "有《三体》库存，这是刘慈欣的科幻小说，价格¥35。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv",
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "《三体》"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "你们有球状闪电吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "是的，《球状闪电》也由刘慈欣创作，现有库存。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "球状闪电"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "《死神永生》的价格是多少？",
+    "merchant": "merchant_a",
+    "expected_answer": "《死神永生》价格为¥38，目前有现货。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "《死神永生》",
+      "价格"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "《三体》有精装版吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "有精装版和平装版，精装版价格¥45。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "《三体》",
+      "精装版"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "刘慈欣的书有哪些？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有《三体》系列全三部：《三体》、《黑暗森林》、《死神永生》。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "刘慈欣"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "《三体》的库存还有多少？",
+    "merchant": "merchant_a",
+    "expected_answer": "《三体》库存充足，共 50+ 本。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "《三体》",
+      "库存"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "销售的小说都有什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们专售科幻小说，主要有三体系列和其他经典作品。",
+    "source_documents": [
+      "merchant_b/products/novels_list.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "小说"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "有没有推荐的书？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们推荐《三体》系列，这是享誉国际的科幻杰作。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "推荐",
+      "书"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "科幻类小说有吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "是的，我们主要经营科幻小说，包括三体系列等。",
+    "source_documents": [
+      "merchant_b/products/novels_list.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "科幻",
+      "小说"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "这个店里书的平均价格是多少？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们的书籍价格在 ¥25-¥50 之间，平均约 ¥35。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "价格"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "《三体》有中英文版本吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有中文版本，暂不提供英文版本。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "《三体》",
+      "版本"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "除了《三体》还有其他科幻小说吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "虽然主要展示《三体》系列，但我们也有其他科幻作品可定制。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "科幻小说"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "批量购买有折扣吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "购买 10 本以上享受 9 折优惠，100 本以上享受 8 折。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "批量",
+      "折扣"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "这些书是正版吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "是的，我们销售的所有书籍均为正版，可提供购买凭证。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "正版"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "三体系列的阅读顺序是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "推荐按照出版顺序阅读：《三体》→《黑暗森林》→《死神永生》。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "阅读顺序"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "什么时候会有新书上架？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们计划每月中旬更新新品，敬请期待。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "新书"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "有特殊版本或限量版的书吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有《三体》的签名版和纪念版，库存有限。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "限量版"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "这些作者还有其他作品可代理吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "除了本店在售商品，可咨询作者官方渠道获取其他作品信息。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "作者",
+      "其他作品"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "可以订阅每月的推荐书单吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们提供月度书单订阅服务，每月向订户推荐精选书籍。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "订阅",
+      "推荐"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "如果《三体》缺货，何时会补货？",
+    "merchant": "merchant_a",
+    "expected_answer": "《三体》为常备商品，一般不缺货。如遇缺货，将在 3-5 个工作日内补货。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "补货"
+    ]
+  },
+  {
+    "id": 21,
+    "question": "你们的退货政策是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "自收货之日起 7 天内可无条件退货，书籍需保持原状。",
+    "source_documents": [
+      "merchant_a/raw_docs/return_guide.docx"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "退货政策"
+    ]
+  },
+  {
+    "id": 22,
+    "question": "怎样联系你们的客服？",
+    "merchant": "merchant_a",
+    "expected_answer": "可通过邮件 service@merchant_a.com 或电话 400-123-4567 联系客服。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "客服"
+    ]
+  },
+  {
+    "id": 23,
+    "question": "需要多久才能发货？",
+    "merchant": "merchant_a",
+    "expected_answer": "一般在订单确认后 1-2 个工作日内发货。",
+    "source_documents": [
+      "merchant_a/raw_docs/shipping_policy.pdf"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "发货"
+    ]
+  },
+  {
+    "id": 24,
+    "question": "支持哪些支付方式？",
+    "merchant": "merchant_a",
+    "expected_answer": "支持支付宝、微信、银行卡和 PayPal 等多种方式。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "支付"
+    ]
+  },
+  {
+    "id": 25,
+    "question": "运费是怎样计算的？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单满 50 元免运费，不满 50 元按重量计费，大约 ¥8-15。",
+    "source_documents": [
+      "merchant_a/raw_docs/shipping_policy.pdf"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "运费"
+    ]
+  },
+  {
+    "id": 26,
+    "question": "有发票吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "支持开具增值税普通发票和电子发票。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "发票"
+    ]
+  },
+  {
+    "id": 27,
+    "question": "能不能送礼物？",
+    "merchant": "merchant_a",
+    "expected_answer": "支持礼物包装服务，可在下单时选择，费用为 ¥5。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "礼物"
+    ]
+  },
+  {
+    "id": 28,
+    "question": "你们有实体店吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们在北京和上海各有一家实体店，地址可在官网查看。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "实体店"
+    ]
+  },
+  {
+    "id": 29,
+    "question": "有会员制度吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "有会员制度，会员可享受 8 折优惠和专属客服服务。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "会员"
+    ]
+  },
+  {
+    "id": 30,
+    "question": "国际快递怎么样？",
+    "merchant": "merchant_a",
+    "expected_answer": "支持国际快递到 150+ 国家，费用根据目的地计算，需 7-15 个工作日。",
+    "source_documents": [
+      "merchant_a/raw_docs/shipping_policy.pdf"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "国际快递"
+    ]
+  },
+  {
+    "id": 31,
+    "question": "我的订单号 ORD-2024-001 在哪里？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-001 已发货，物流单号为 SF123456789，预计 3 天内送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "订单号"
+    ]
+  },
+  {
+    "id": 32,
+    "question": "我想修改收货地址",
+    "merchant": "merchant_a",
+    "expected_answer": "订单未发货前可在我的订单中修改地址。已发货需联系客服处理。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "修改",
+      "地址"
+    ]
+  },
+  {
+    "id": 33,
+    "question": "订单可以取消吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "未发货的订单可以取消并全额退款。已发货需发起退货流程。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "取消"
+    ]
+  },
+  {
+    "id": 34,
+    "question": "你好",
+    "merchant": "merchant_a",
+    "expected_answer": "你好！欢迎来到我们的图书店，有什么我可以帮助您的吗？",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": []
+  },
+  {
+    "id": 35,
+    "question": "你们的店怎么样？",
+    "merchant": "merchant_a",
+    "expected_answer": "感谢您的问询！我们专注于科幻文学，提供优质的图书和服务。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": []
+  },
+  {
+    "id": 36,
+    "question": "宇宙的起源是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "这是一个科学问题，超出我们图书店的范围。建议查阅专业物理学文献或《三体》等科幻小说。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": []
+  },
+  {
+    "id": 37,
+    "question": "能帮我做作业吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，这不是我们的服务范围。您可以咨询教师或使用在线教育平台。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": []
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "科幻"
+    ],
+    "id": 38
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "文学"
+    ],
+    "id": 39
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "哲学"
+    ],
+    "id": 40
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "历史"
+    ],
+    "id": 41
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "艺术"
+    ],
+    "id": 42
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "科幻"
+    ],
+    "id": 43
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "文学"
+    ],
+    "id": 44
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "哲学"
+    ],
+    "id": 45
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "历史"
+    ],
+    "id": 46
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "艺术"
+    ],
+    "id": 47
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "科幻"
+    ],
+    "id": 48
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "文学"
+    ],
+    "id": 49
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "哲学"
+    ],
+    "id": 50
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "历史"
+    ],
+    "id": 51
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "艺术"
+    ],
+    "id": 52
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "科幻"
+    ],
+    "id": 53
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "文学"
+    ],
+    "id": 54
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "哲学"
+    ],
+    "id": 55
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "历史"
+    ],
+    "id": 56
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "艺术"
+    ],
+    "id": 57
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "科幻"
+    ],
+    "id": 58
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "文学"
+    ],
+    "id": 59
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "哲学"
+    ],
+    "id": 60
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "历史"
+    ],
+    "id": 61
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "艺术"
+    ],
+    "id": 62
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "科幻"
+    ],
+    "id": 63
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "文学"
+    ],
+    "id": 64
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "哲学"
+    ],
+    "id": 65
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "历史"
+    ],
+    "id": 66
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "艺术"
+    ],
+    "id": 67
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "科幻"
+    ],
+    "id": 68
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "文学"
+    ],
+    "id": 69
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "哲学"
+    ],
+    "id": 70
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "历史"
+    ],
+    "id": 71
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "艺术"
+    ],
+    "id": 72
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "科幻"
+    ],
+    "id": 73
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "文学"
+    ],
+    "id": 74
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "哲学"
+    ],
+    "id": 75
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "历史"
+    ],
+    "id": 76
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "艺术"
+    ],
+    "id": 77
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "科幻"
+    ],
+    "id": 78
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "文学"
+    ],
+    "id": 79
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "哲学"
+    ],
+    "id": 80
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "历史"
+    ],
+    "id": 81
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "艺术"
+    ],
+    "id": 82
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "科幻"
+    ],
+    "id": 83
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "文学"
+    ],
+    "id": 84
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "哲学"
+    ],
+    "id": 85
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "历史"
+    ],
+    "id": 86
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "艺术"
+    ],
+    "id": 87
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "科幻"
+    ],
+    "id": 88
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "文学"
+    ],
+    "id": 89
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "哲学"
+    ],
+    "id": 90
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "历史"
+    ],
+    "id": 91
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "艺术"
+    ],
+    "id": 92
+  },
+  {
+    "question": "有没有关于科幻的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种科幻相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "科幻"
+    ],
+    "id": 93
+  },
+  {
+    "question": "有没有关于文学的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种文学相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "文学"
+    ],
+    "id": 94
+  },
+  {
+    "question": "有没有关于哲学的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种哲学相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [
+      "哲学"
+    ],
+    "id": 95
+  },
+  {
+    "question": "有没有关于历史的书籍？",
+    "merchant": "merchant_a",
+    "expected_answer": "我们有多种历史相关的书籍。",
+    "source_documents": [
+      "merchant_a/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "历史"
+    ],
+    "id": 96
+  },
+  {
+    "question": "有没有关于艺术的书籍？",
+    "merchant": "merchant_b",
+    "expected_answer": "我们有多种艺术相关的书籍。",
+    "source_documents": [
+      "merchant_b/products/books_catalog.csv"
+    ],
+    "intent_label": "PRODUCT_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [
+      "艺术"
+    ],
+    "id": 97
+  },
+  {
+    "question": "运费是多少钱？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于运费是多少钱？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 98
+  },
+  {
+    "question": "支持哪些支付方式？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于支持哪些支付方式？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 99
+  },
+  {
+    "question": "退货需要多久？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于退货需要多久？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 100
+  },
+  {
+    "question": "有发票吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于有发票吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 101
+  },
+  {
+    "question": "能送礼物吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于能送礼物吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 102
+  },
+  {
+    "question": "怎样联系客服？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于怎样联系客服？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 103
+  },
+  {
+    "question": "有保修服务吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于有保修服务吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 104
+  },
+  {
+    "question": "运费是多少钱？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于运费是多少钱？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 105
+  },
+  {
+    "question": "支持哪些支付方式？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于支持哪些支付方式？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 106
+  },
+  {
+    "question": "退货需要多久？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于退货需要多久？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 107
+  },
+  {
+    "question": "有发票吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于有发票吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 108
+  },
+  {
+    "question": "能送礼物吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于能送礼物吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 109
+  },
+  {
+    "question": "怎样联系客服？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于怎样联系客服？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 110
+  },
+  {
+    "question": "有保修服务吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于有保修服务吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 111
+  },
+  {
+    "question": "运费是多少钱？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于运费是多少钱？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 112
+  },
+  {
+    "question": "支持哪些支付方式？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于支持哪些支付方式？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 113
+  },
+  {
+    "question": "退货需要多久？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于退货需要多久？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 114
+  },
+  {
+    "question": "有发票吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于有发票吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 115
+  },
+  {
+    "question": "能送礼物吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于能送礼物吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 116
+  },
+  {
+    "question": "怎样联系客服？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于怎样联系客服？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 117
+  },
+  {
+    "question": "有保修服务吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于有保修服务吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 118
+  },
+  {
+    "question": "运费是多少钱？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于运费是多少钱？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 119
+  },
+  {
+    "question": "支持哪些支付方式？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于支持哪些支付方式？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 120
+  },
+  {
+    "question": "退货需要多久？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于退货需要多久？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 121
+  },
+  {
+    "question": "有发票吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于有发票吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 122
+  },
+  {
+    "question": "能送礼物吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于能送礼物吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 123
+  },
+  {
+    "question": "怎样联系客服？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于怎样联系客服？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 124
+  },
+  {
+    "question": "有保修服务吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于有保修服务吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 125
+  },
+  {
+    "question": "运费是多少钱？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于运费是多少钱？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 126
+  },
+  {
+    "question": "支持哪些支付方式？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于支持哪些支付方式？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 127
+  },
+  {
+    "question": "退货需要多久？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于退货需要多久？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 128
+  },
+  {
+    "question": "有发票吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于有发票吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 129
+  },
+  {
+    "question": "能送礼物吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于能送礼物吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 130
+  },
+  {
+    "question": "怎样联系客服？",
+    "merchant": "merchant_b",
+    "expected_answer": "关于怎样联系客服？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 131
+  },
+  {
+    "question": "有保修服务吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "关于有保修服务吗？的相关政策，请查阅官网。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "POLICY_INQUIRY",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 132
+  },
+  {
+    "question": "订单 ORD-2024-1000 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1000 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1000"
+    ],
+    "id": 133
+  },
+  {
+    "question": "订单 ORD-2024-1001 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1001 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1001"
+    ],
+    "id": 134
+  },
+  {
+    "question": "订单 ORD-2024-1002 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1002 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1002"
+    ],
+    "id": 135
+  },
+  {
+    "question": "订单 ORD-2024-1003 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1003 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1003"
+    ],
+    "id": 136
+  },
+  {
+    "question": "订单 ORD-2024-1004 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1004 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1004"
+    ],
+    "id": 137
+  },
+  {
+    "question": "订单 ORD-2024-1005 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1005 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1005"
+    ],
+    "id": 138
+  },
+  {
+    "question": "订单 ORD-2024-1006 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1006 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1006"
+    ],
+    "id": 139
+  },
+  {
+    "question": "订单 ORD-2024-1007 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1007 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1007"
+    ],
+    "id": 140
+  },
+  {
+    "question": "订单 ORD-2024-1008 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1008 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1008"
+    ],
+    "id": 141
+  },
+  {
+    "question": "订单 ORD-2024-1009 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1009 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1009"
+    ],
+    "id": 142
+  },
+  {
+    "question": "订单 ORD-2024-1010 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1010 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1010"
+    ],
+    "id": 143
+  },
+  {
+    "question": "订单 ORD-2024-1011 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1011 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1011"
+    ],
+    "id": 144
+  },
+  {
+    "question": "订单 ORD-2024-1012 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1012 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1012"
+    ],
+    "id": 145
+  },
+  {
+    "question": "订单 ORD-2024-1013 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1013 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1013"
+    ],
+    "id": 146
+  },
+  {
+    "question": "订单 ORD-2024-1014 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1014 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1014"
+    ],
+    "id": 147
+  },
+  {
+    "question": "订单 ORD-2024-1015 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1015 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1015"
+    ],
+    "id": 148
+  },
+  {
+    "question": "订单 ORD-2024-1016 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1016 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1016"
+    ],
+    "id": 149
+  },
+  {
+    "question": "订单 ORD-2024-1017 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1017 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1017"
+    ],
+    "id": 150
+  },
+  {
+    "question": "订单 ORD-2024-1018 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1018 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1018"
+    ],
+    "id": 151
+  },
+  {
+    "question": "订单 ORD-2024-1019 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1019 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1019"
+    ],
+    "id": 152
+  },
+  {
+    "question": "订单 ORD-2024-1020 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1020 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1020"
+    ],
+    "id": 153
+  },
+  {
+    "question": "订单 ORD-2024-1021 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1021 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1021"
+    ],
+    "id": 154
+  },
+  {
+    "question": "订单 ORD-2024-1022 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1022 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1022"
+    ],
+    "id": 155
+  },
+  {
+    "question": "订单 ORD-2024-1023 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1023 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1023"
+    ],
+    "id": 156
+  },
+  {
+    "question": "订单 ORD-2024-1024 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1024 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1024"
+    ],
+    "id": 157
+  },
+  {
+    "question": "订单 ORD-2024-1025 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1025 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1025"
+    ],
+    "id": 158
+  },
+  {
+    "question": "订单 ORD-2024-1026 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1026 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1026"
+    ],
+    "id": 159
+  },
+  {
+    "question": "订单 ORD-2024-1027 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1027 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1027"
+    ],
+    "id": 160
+  },
+  {
+    "question": "订单 ORD-2024-1028 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1028 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1028"
+    ],
+    "id": 161
+  },
+  {
+    "question": "订单 ORD-2024-1029 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1029 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1029"
+    ],
+    "id": 162
+  },
+  {
+    "question": "订单 ORD-2024-1030 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1030 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1030"
+    ],
+    "id": 163
+  },
+  {
+    "question": "订单 ORD-2024-1031 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1031 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1031"
+    ],
+    "id": 164
+  },
+  {
+    "question": "订单 ORD-2024-1032 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1032 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "HARD",
+    "entities": [
+      "ORD-2024-1032"
+    ],
+    "id": 165
+  },
+  {
+    "question": "订单 ORD-2024-1033 的物流信息是什么？",
+    "merchant": "merchant_b",
+    "expected_answer": "订单 ORD-2024-1033 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_b/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "EASY",
+    "entities": [
+      "ORD-2024-1033"
+    ],
+    "id": 166
+  },
+  {
+    "question": "订单 ORD-2024-1034 的物流信息是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "订单 ORD-2024-1034 已发货，预计 3-5 天送达。",
+    "source_documents": [
+      "merchant_a/raw_docs/faq.txt"
+    ],
+    "intent_label": "ORDER_SERVICE",
+    "difficulty": "MEDIUM",
+    "entities": [
+      "ORD-2024-1034"
+    ],
+    "id": 167
+  },
+  {
+    "question": "你好",
+    "merchant": "merchant_a",
+    "expected_answer": "你好！欢迎来到我们的店铺。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 168
+  },
+  {
+    "question": "最近好吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "谢谢关心！我们很好。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 169
+  },
+  {
+    "question": "你是谁？",
+    "merchant": "merchant_a",
+    "expected_answer": "我是自动客服，为您提供 24/7 服务。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 170
+  },
+  {
+    "question": "谢谢你",
+    "merchant": "merchant_b",
+    "expected_answer": "不客气！很高兴为您服务。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 171
+  },
+  {
+    "question": "再见",
+    "merchant": "merchant_a",
+    "expected_answer": "再见！欢迎下次光临。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 172
+  },
+  {
+    "question": "祝你好运",
+    "merchant": "merchant_b",
+    "expected_answer": "祝您购物愉快！",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 173
+  },
+  {
+    "question": "能帮我吗",
+    "merchant": "merchant_a",
+    "expected_answer": "当然可以，请告诉我您需要什么。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 174
+  },
+  {
+    "question": "怎样下单",
+    "merchant": "merchant_b",
+    "expected_answer": "在我们的网站上选择商品，按步骤完成支付即可。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 175
+  },
+  {
+    "question": "你好",
+    "merchant": "merchant_a",
+    "expected_answer": "你好！欢迎来到我们的店铺。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 176
+  },
+  {
+    "question": "最近好吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "谢谢关心！我们很好。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 177
+  },
+  {
+    "question": "你是谁？",
+    "merchant": "merchant_a",
+    "expected_answer": "我是自动客服，为您提供 24/7 服务。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 178
+  },
+  {
+    "question": "谢谢你",
+    "merchant": "merchant_b",
+    "expected_answer": "不客气！很高兴为您服务。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 179
+  },
+  {
+    "question": "再见",
+    "merchant": "merchant_a",
+    "expected_answer": "再见！欢迎下次光临。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 180
+  },
+  {
+    "question": "祝你好运",
+    "merchant": "merchant_b",
+    "expected_answer": "祝您购物愉快！",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 181
+  },
+  {
+    "question": "能帮我吗",
+    "merchant": "merchant_a",
+    "expected_answer": "当然可以，请告诉我您需要什么。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 182
+  },
+  {
+    "question": "怎样下单",
+    "merchant": "merchant_b",
+    "expected_answer": "在我们的网站上选择商品，按步骤完成支付即可。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 183
+  },
+  {
+    "question": "你好",
+    "merchant": "merchant_a",
+    "expected_answer": "你好！欢迎来到我们的店铺。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 184
+  },
+  {
+    "question": "最近好吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "谢谢关心！我们很好。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 185
+  },
+  {
+    "question": "你是谁？",
+    "merchant": "merchant_a",
+    "expected_answer": "我是自动客服，为您提供 24/7 服务。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 186
+  },
+  {
+    "question": "谢谢你",
+    "merchant": "merchant_b",
+    "expected_answer": "不客气！很高兴为您服务。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 187
+  },
+  {
+    "question": "再见",
+    "merchant": "merchant_a",
+    "expected_answer": "再见！欢迎下次光临。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 188
+  },
+  {
+    "question": "祝你好运",
+    "merchant": "merchant_b",
+    "expected_answer": "祝您购物愉快！",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 189
+  },
+  {
+    "question": "能帮我吗",
+    "merchant": "merchant_a",
+    "expected_answer": "当然可以，请告诉我您需要什么。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 190
+  },
+  {
+    "question": "怎样下单",
+    "merchant": "merchant_b",
+    "expected_answer": "在我们的网站上选择商品，按步骤完成支付即可。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 191
+  },
+  {
+    "question": "你好",
+    "merchant": "merchant_a",
+    "expected_answer": "你好！欢迎来到我们的店铺。",
+    "source_documents": [],
+    "intent_label": "CHITCHAT",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 192
+  },
+  {
+    "question": "宇宙的本质是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'宇宙的本质是什么？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 193
+  },
+  {
+    "question": "能帮我做作业吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'能帮我做作业吗？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 194
+  },
+  {
+    "question": "数学题怎么解？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'数学题怎么解？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 195
+  },
+  {
+    "question": "天气怎么样？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'天气怎么样？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 196
+  },
+  {
+    "question": "你能写代码吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'你能写代码吗？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 197
+  },
+  {
+    "question": "股票怎么炒？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'股票怎么炒？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 198
+  },
+  {
+    "question": "美食推荐",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'美食推荐' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 199
+  },
+  {
+    "question": "旅游建议",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'旅游建议' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 200
+  },
+  {
+    "question": "健身计划",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'健身计划' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 201
+  },
+  {
+    "question": "心理咨询",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'心理咨询' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 202
+  },
+  {
+    "question": "宇宙的本质是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'宇宙的本质是什么？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 203
+  },
+  {
+    "question": "能帮我做作业吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'能帮我做作业吗？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 204
+  },
+  {
+    "question": "数学题怎么解？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'数学题怎么解？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 205
+  },
+  {
+    "question": "天气怎么样？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'天气怎么样？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 206
+  },
+  {
+    "question": "你能写代码吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'你能写代码吗？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 207
+  },
+  {
+    "question": "股票怎么炒？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'股票怎么炒？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 208
+  },
+  {
+    "question": "美食推荐",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'美食推荐' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 209
+  },
+  {
+    "question": "旅游建议",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'旅游建议' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 210
+  },
+  {
+    "question": "健身计划",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'健身计划' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 211
+  },
+  {
+    "question": "心理咨询",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'心理咨询' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 212
+  },
+  {
+    "question": "宇宙的本质是什么？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'宇宙的本质是什么？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 213
+  },
+  {
+    "question": "能帮我做作业吗？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'能帮我做作业吗？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 214
+  },
+  {
+    "question": "数学题怎么解？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'数学题怎么解？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "MEDIUM",
+    "entities": [],
+    "id": 215
+  },
+  {
+    "question": "天气怎么样？",
+    "merchant": "merchant_b",
+    "expected_answer": "抱歉，'天气怎么样？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "HARD",
+    "entities": [],
+    "id": 216
+  },
+  {
+    "question": "你能写代码吗？",
+    "merchant": "merchant_a",
+    "expected_answer": "抱歉，'你能写代码吗？' 超出了我们的服务范围。",
+    "source_documents": [],
+    "intent_label": "OTHERS",
+    "difficulty": "EASY",
+    "entities": [],
+    "id": 217
+  }
+]
