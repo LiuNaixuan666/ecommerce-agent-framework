@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>E-commerce Agent PoC</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 12px; width: 320px; }
+    textarea, input { width: 100%; box-sizing: border-box; margin-bottom: 8px; padding: 8px; }
+    button { width: 100%; padding: 10px; font-size: 14px; }
+    .response { white-space: pre-wrap; margin-top: 10px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h2>浏览器扩展 PoC</h2>
+  <label>用户问题：</label>
+  <textarea id="userQuery" rows="3" placeholder="请输入您要问的问题"></textarea>
+  <button id="sendButton">发送到本地接口</button>
+  <div class="response" id="result"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

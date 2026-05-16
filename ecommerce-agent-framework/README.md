@@ -87,6 +87,56 @@ XIAOHONGSHU_MERCHANT_ID=your_merchant_id
 - `POST /api/knowledge/ingest` - 触发文档摄取
 - `GET /api/knowledge/list-uploads` - 获取上传任务列表
 
+### 浏览器扩展接口
+- `POST /api/extension/page-context` - 接收浏览器页面上下文（商品信息、价格、库存）
+- `POST /api/extension/page-chat` - 结合页面上下文和用户问题生成回答
+
+## 🌐 浏览器扩展 PoC
+
+浏览器扩展 PoC 演示页面上下文提取与本地 FastAPI 后端交互。
+
+### 加载步骤
+1. 打开浏览器扩展管理页面。
+2. 开启“开发者模式”。
+3. 选择“加载已解压的扩展程序”，指向 `browser_extension` 目录。
+4. 访问商品页面，等待页面内容脚本提取页面上下文。
+5. 点击扩展按钮，输入用户问题并发送。
+
+### 说明
+- 页面内容脚本会自动尝试提取标题、价格和库存。
+- 提取结果会发送到 `http://localhost:8000/api/extension/page-context`。
+- 扩展 popup 会把用户问题与页面上下文一起发送到 `http://localhost:8000/api/extension/page-chat`。
+
+## 📦 本地部署与打包
+
+### Docker
+- `Dockerfile`：构建后端镜像
+- `.dockerignore`：排除本地临时文件
+- `scripts/build_docker.ps1`：Windows 下构建镜像
+- `scripts/run_docker.ps1`：Windows 下运行镜像
+
+构建并运行：
+```powershell
+cd d:\develop_python\system\ecommerce-agent-framework
+.\scripts\build_docker.ps1
+.\scripts\run_docker.ps1
+```
+
+### Windows 服务
+- `scripts/install_windows_service.ps1`：注册服务
+- `scripts/uninstall_windows_service.ps1`：删除服务
+
+安装示例：
+```powershell
+.\scripts\install_windows_service.ps1 -PythonExe 'python' -ProjectRoot 'D:\develop_python\system\ecommerce-agent-framework' -Port 8000
+Start-Service EcommerceAgentFramework
+```
+
+卸载示例：
+```powershell
+.\scripts\uninstall_windows_service.ps1
+```
+
 ## 🔧 开发指南
 
 ### 添加新平台适配器

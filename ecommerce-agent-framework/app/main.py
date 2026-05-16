@@ -11,6 +11,7 @@ import logging
 # Import API routers
 from app.api.routes_chat import router as chat_router
 from app.api.routes_knowledge import router as knowledge_router
+from app.api.routes_extension import router as extension_router
 # from app.api.routes_evaluation import router as evaluation_router  # TODO: implement later
 from app.engine import engine
 from app.storage.storage_manager import storage_manager
@@ -43,6 +44,7 @@ app.add_middleware(
 # Include routers
 app.include_router(chat_router)
 app.include_router(knowledge_router)
+app.include_router(extension_router)
 # app.include_router(evaluation_router)  # TODO: implement later
 
 # Global chat manager instance
