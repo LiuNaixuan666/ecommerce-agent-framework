@@ -1,0 +1,10 @@
+name: sample-adapter
+version: 0.1.0
+author: your-name
+platform: sample
+entry: adapter.py
+config:
+  - name: api_key
+    required: true
+  - name: api_secret
+    required: false

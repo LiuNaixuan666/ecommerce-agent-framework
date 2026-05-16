@@ -67,6 +67,97 @@ class ResponseGenerator:
             self.logger.exception(f"Error generating response: {e}")
             return f"抱歉，暂时无法生成回答。请稍后重试。错误：{str(e)}"
 
+    async def generate_grounded_response_with_confidence(
+        self,
+        user_query: str,
+        retrieval_results: dict,
+        merchant_id: str,
+    ) -> tuple:
+        """生成回答并请求模型给出自评置信度，返回 (response_text, self_confidence)。"""
+        try:
+            # 复用 generate_grounded_response 的上下文构造
+            context_parts = []
+            structured_data = retrieval_results.get("structured_data")
+            if structured_data:
+                context_parts.append("=== 结构化数据 ===")
+                context_parts.append(self._format_structured_data(structured_data))
+
+            documents = retrieval_results.get("documents", [])
+            if documents:
+                context_parts.append("=== 相关文档 ===")
+                for i, doc in enumerate(documents[:3]):
+                    context_parts.append(f"文档 {i+1}: {doc['content']}")
+                    if doc.get("source"):
+                        context_parts.append(f"来源: {doc['source']}")
+
+            context_text = "\n\n".join(context_parts)
+            system_prompt = f"""
+            你是一个专业的电商客服助手。请基于提供的上下文信息回答用户问题。
+
+            要求：
+            1) 先给出清晰、基于上下文的回答。
+            2) 然后以严格的 JSON 格式返回模型对自己回答的置信度评分（字段名为 self_confidence，范围 0.0-1.0）。
+               最终输出应为一个 JSON 对象，形如：{"{"}answer": "...", "self_confidence": 0.85{"}"}
+
+            上下文信息：
+            {context_text}
+            """
+
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": f"用户问题：{user_query}"}
+            ]
+
+            try:
+                raw = self.llm.chat(
+                    messages,
+                    max_tokens=settings.llm_max_tokens,
+                    temperature=max(0.0, min(0.3, settings.llm_temperature)),
+                )
+                text = raw.strip()
+
+                # 尝试解析 JSON
+                import json, re
+
+                try:
+                    payload = json.loads(text)
+                    answer = payload.get("answer") or payload.get("response") or ""
+                    confidence = float(payload.get("self_confidence", 1.0))
+                    return answer.strip(), max(0.0, min(1.0, confidence))
+                except Exception:
+                    # 尝试从文本末尾提取 JSON 对象
+                    m = re.search(r"\{.*\}\s*$", text, re.S)
+                    if m:
+                        try:
+                            payload = json.loads(m.group(0))
+                            answer = text[:m.start()].strip()
+                            confidence = float(payload.get("self_confidence", 1.0))
+                            return answer, max(0.0, min(1.0, confidence))
+                        except Exception:
+                            pass
+
+                    # 退化方案：没有 JSON，尝试从文本中找到类似数字
+                    num = re.search(r"self_confidence\D*(0?\.\d+|1(?:\.0+)?)", text, re.I)
+                    if num:
+                        try:
+                            confidence = float(num.group(1))
+                            # 答案为剔除置信字段的文本
+                            answer = re.sub(r"self_confidence\D*(0?\.\d+|1(?:\.0+)?)", "", text, flags=re.I).strip()
+                            return answer, max(0.0, min(1.0, confidence))
+                        except Exception:
+                            pass
+
+                # 最后退回：无置信度信息，返回文本并默认置信为 0.5
+                return text, 0.5
+            except Exception as e:
+                self.logger.warning(f"LLM generation (with confidence) failed: {e}")
+
+            return self._generate_mock_response(user_query, structured_data, documents), 0.5
+
+        except Exception as e:
+            self.logger.exception(f"Error generating response with confidence: {e}")
+            return f"抱歉，暂时无法生成回答。请稍后重试。错误：{str(e)}", 0.0
+
     def _format_structured_data(self, data: dict) -> str:
         lines = []
         if "product_name" in data:

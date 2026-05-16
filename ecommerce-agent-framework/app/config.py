@@ -48,8 +48,48 @@ class Settings(BaseSettings):
     llm_max_tokens: int = Field(500, env="LLM_MAX_TOKENS", description="Max tokens for LLM response")
     llm_timeout: int = Field(30, env="LLM_TIMEOUT", description="Timeout for LLM API calls (seconds)")
 
+    # === 数据库配置 ===
+    # Redis 配置（会话存储）
+    redis_host: str = Field("localhost", env="REDIS_HOST", description="Redis server host")
+    redis_port: int = Field(6379, env="REDIS_PORT", description="Redis server port")
+    redis_db: int = Field(0, env="REDIS_DB", description="Redis database number")
+    redis_password: Optional[str] = Field(None, env="REDIS_PASSWORD", description="Redis password")
+    redis_session_ttl: int = Field(86400, env="REDIS_SESSION_TTL", description="Session TTL in seconds (24 hours)")
+
+    # PostgreSQL 配置（摄取任务存储）
+    postgres_host: str = Field("localhost", env="POSTGRES_HOST", description="PostgreSQL server host")
+    postgres_port: int = Field(5432, env="POSTGRES_PORT", description="PostgreSQL server port")
+    postgres_db: str = Field("ecommerce_agent", env="POSTGRES_DB", description="PostgreSQL database name")
+    postgres_user: str = Field("postgres", env="POSTGRES_USER", description="PostgreSQL username")
+    postgres_password: str = Field("password", env="POSTGRES_PASSWORD", description="PostgreSQL password")
+
+    # 存储后端选择
+    storage_backend: str = Field("memory", env="STORAGE_BACKEND", description="Storage backend: memory, redis, postgres")
+    session_storage: str = Field("memory", env="SESSION_STORAGE", description="Session storage: memory, redis")
+    ingestion_storage: str = Field("memory", env="INGESTION_STORAGE", description="Ingestion storage: memory, postgres")
+
     # === 适配器配置 ===
     default_adapter_type: str = Field("mock", env="DEFAULT_ADAPTER_TYPE", description="Default adapter type (mock, taobao, jd, amazon, erp)")
+
+    # 平台聊天适配器配置
+    chat_adapters: Dict[str, Dict[str, Any]] = Field(default_factory=dict, description="Chat adapter configurations per platform")
+
+    # 小红书配置
+    xiaohongshu_app_id: Optional[str] = Field(None, env="XIAOHONGSHU_APP_ID", description="Xiaohongshu App ID")
+    xiaohongshu_app_secret: Optional[str] = Field(None, env="XIAOHONGSHU_APP_SECRET", description="Xiaohongshu App Secret")
+    xiaohongshu_webhook_token: Optional[str] = Field(None, env="XIAOHONGSHU_WEBHOOK_TOKEN", description="Xiaohongshu Webhook Token")
+    xiaohongshu_merchant_id: Optional[str] = Field(None, env="XIAOHONGSHU_MERCHANT_ID", description="Xiaohongshu Merchant ID")
+    xiaohongshu_api_base_url: str = Field("https://api.xiaohongshu.com", env="XIAOHONGSHU_API_BASE_URL", description="Xiaohongshu API Base URL")
+
+    # 淘宝配置
+    taobao_app_key: Optional[str] = Field(None, env="TAOBAO_APP_KEY", description="Taobao App Key")
+    taobao_app_secret: Optional[str] = Field(None, env="TAOBAO_APP_SECRET", description="Taobao App Secret")
+    taobao_session_key: Optional[str] = Field(None, env="TAOBAO_SESSION_KEY", description="Taobao Session Key")
+
+    # 京东配置
+    jd_app_key: Optional[str] = Field(None, env="JD_APP_KEY", description="JD App Key")
+    jd_app_secret: Optional[str] = Field(None, env="JD_APP_SECRET", description="JD App Secret")
+
     adapter_configs: Dict[str, Dict[str, Any]] = Field(default_factory=dict, env="ADAPTER_CONFIGS", description="Adapter-specific configurations")
 
     # === 服务器配置 ===

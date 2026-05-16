@@ -43,7 +43,8 @@ class UncertaintyDetector:
         retrieval_scores: list,
         retrieved_documents: list,
         user_query: str,
-        intent_confidence: float = 1.0
+        intent_confidence: float = 1.0,
+        llm_confidence: float = 1.0
     ) -> UncertaintyResult:
         """
         综合检测不确定性。
@@ -71,11 +72,12 @@ class UncertaintyDetector:
         query_ambiguity_score = UncertaintyDetector._compute_query_ambiguity(user_query)
         
         # 3. 综合计算总体置信度
-        # 公式：总体置信度 = 检索置信度 × (1 - 歧义度) × 意图置信度
+        # 公式：总体置信度 = 检索置信度 × (1 - 歧义度) × 意图置信度 × LLM 自评置信度
         overall_confidence = (
-            retrieval_confidence * 
-            (1.0 - query_ambiguity_score) * 
-            intent_confidence
+            retrieval_confidence *
+            (1.0 - query_ambiguity_score) *
+            intent_confidence *
+            llm_confidence
         )
         
         # 4. 判定是否不确定

@@ -13,7 +13,7 @@ from app.agent.response_generator import ResponseGenerator
 from app.rag.vector_store import VectorStore
 from app.rag.retriever import Retriever
 from app.rag.embedder import Embedder
-from app.connectors.base import get_platform_adapter, MerchantDataAdapter
+from app.connectors.base import get_platform_adapter, MerchantDataAdapter, mock_adapter
 
 
 class Engine:
@@ -79,7 +79,10 @@ class Engine:
     def _initialize_adapters(self):
         """初始化适配器"""
         for merchant_id in self._get_merchant_ids():
-            adapter = get_platform_adapter(merchant_id, settings.default_adapter_type)
+            if settings.default_adapter_type == 'mock':
+                adapter = mock_adapter
+            else:
+                adapter = get_platform_adapter(settings.default_adapter_type)
             self.adapters[merchant_id] = adapter
 
     def get_intent_parser(self) -> IntentParser:
