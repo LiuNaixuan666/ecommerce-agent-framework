@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 import aiohttp
 from urllib.parse import urlencode
 
-from .chat_base import ChatAdapter, ChatMessage, Conversation
+from .chat_base import ChatAdapter, ChatMessage, Conversation, ChatAdapterFactory
 
 logger = logging.getLogger(__name__)
 
@@ -347,3 +347,7 @@ class XiaohongshuChatAdapter(ChatAdapter):
         """Close the adapter and cleanup resources"""
         if self._session:
             await self._session.close()
+
+
+# Register this adapter with the factory so ChatManager can load it dynamically.
+ChatAdapterFactory.register('xiaohongshu', XiaohongshuChatAdapter)

@@ -12,6 +12,8 @@ from typing import Dict, List, Optional, Any, Set
 from datetime import datetime
 import json
 
+import importlib
+
 from .chat_base import ChatAdapter, ChatMessage, Conversation, ChatAdapterFactory
 from ..storage.storage_manager import storage_manager
 from ..engine import engine
@@ -33,18 +35,26 @@ class ChatManager:
         """Initialize chat adapters for configured platforms"""
         try:
             for platform, config in platform_configs.items():
-                adapter_class_name = config.get('adapter_class')
-                if not adapter_class_name:
-                    logger.warning(f"No adapter class specified for platform {platform}")
-                    continue
+                adapter = None
+                adapter_class_path = config.get('adapter_class') or config.get('adapter_class_path')
 
-                # Import and instantiate adapter
-                # This is a simplified version - in production you'd use proper dependency injection
-                if platform.lower() == 'xiaohongshu':
-                    from .xiaohongshu_adapter import XiaohongshuChatAdapter
-                    adapter = XiaohongshuChatAdapter(config)
-                else:
-                    logger.warning(f"Unknown platform: {platform}")
+                if adapter_class_path:
+                    try:
+                        module_name, class_name = adapter_class_path.rsplit('.', 1)
+                        module = importlib.import_module(module_name)
+                        adapter_class = getattr(module, class_name)
+                        adapter = adapter_class(config)
+                    except Exception as e:
+                        logger.warning(f"Failed to import adapter class {adapter_class_path} for platform {platform}: {e}")
+
+                if adapter is None:
+                    try:
+                        adapter = ChatAdapterFactory.create(platform, config)
+                    except Exception as e:
+                        logger.warning(f"ChatAdapterFactory could not create adapter for {platform}: {e}")
+
+                if adapter is None:
+                    logger.warning(f"No adapter configured for platform {platform}")
                     continue
 
                 success = await adapter.initialize(config)

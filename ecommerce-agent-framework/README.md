@@ -137,7 +137,11 @@ Start-Service EcommerceAgentFramework
 .\scripts\uninstall_windows_service.ps1
 ```
 
-## 🔧 开发指南
+## � 设计文档
+
+- [平台接入与多平台实时回复架构说明](docs/PLATFORM_INTEGRATION_AND_REALTIME_ARCHITECTURE.md)
+
+## �🔧 开发指南
 
 ### 添加新平台适配器
 
