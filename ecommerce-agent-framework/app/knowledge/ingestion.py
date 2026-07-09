@@ -1,6 +1,7 @@
 # ingestion.py
 import os
 import logging
+import shutil
 from typing import Optional, List
 from .document_parser import DocumentParser
 from .chunking import split_documents
@@ -17,6 +18,9 @@ def ingest_merchant_documents(
 	chunk_size: int = 1000,
 	chunk_overlap: int = 200,
 	persist_root: Optional[str] = None,
+	product_id: Optional[str] = None,
+	platform: Optional[str] = None,
+	shop_id: Optional[str] = None,
 ) -> dict:
 	"""
 	将指定商家目录下的文档接入向量库：
@@ -35,7 +39,14 @@ def ingest_merchant_documents(
 	if not documents:
 		return {"status": "no_documents", "count": 0}
 
-	chunks = split_documents(documents, chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+	chunks = split_documents(
+		documents,
+		chunk_size=chunk_size,
+		chunk_overlap=chunk_overlap,
+		product_id=product_id,
+		platform=platform,
+		shop_id=shop_id,
+	)
 
 	if embeddings is None:
 		embeddings = get_embedding_client()
@@ -43,6 +54,13 @@ def ingest_merchant_documents(
 	# 默认将向量库持久化在商家目录下的 vector_store 以保持与 data 布局一致
 	if persist_root is None:
 		persist_root = os.path.join(merchant_dir, "vector_store")
+
+	# Rebuild from raw docs each time so repeated uploads do not duplicate chunks.
+	if os.path.exists(persist_root):
+		try:
+			shutil.rmtree(persist_root)
+		except PermissionError as e:
+			logger.warning("Vector store is currently locked; appending chunks instead of rebuilding: %s", e)
 
 	chroma = get_or_create_chroma(merchant_id, embeddings, persist_root=persist_root)
 

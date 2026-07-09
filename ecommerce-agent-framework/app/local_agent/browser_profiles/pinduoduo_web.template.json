@@ -1,0 +1,23 @@
+{
+  "name": "pinduoduo_web",
+  "platform": "pinduoduo",
+  "default_url": "",
+  "default_conversation_id": "pdd-browser-conversation",
+  "selectors": {
+    "root": "TODO_REPLACE_WITH_CHAT_ROOT_SELECTOR",
+    "buyer_messages": "TODO_REPLACE_WITH_BUYER_MESSAGE_SELECTOR",
+    "reply_input": "TODO_REPLACE_WITH_REPLY_INPUT_SELECTOR",
+    "send_button": "TODO_REPLACE_WITH_SEND_BUTTON_SELECTOR",
+    "sent_messages": "TODO_REPLACE_WITH_SENT_MESSAGE_SELECTOR",
+    "message_id_attr": "data-message-id",
+    "conversation_id_attr": "data-conversation-id",
+    "customer_id_attr": "data-customer-id",
+    "customer_name_attr": "data-customer-name",
+    "product_fields": {
+      "product_name": "TODO_REPLACE_WITH_PRODUCT_NAME_SELECTOR",
+      "sku": "TODO_REPLACE_WITH_SKU_SELECTOR",
+      "price": "TODO_REPLACE_WITH_PRICE_SELECTOR",
+      "stock": "TODO_REPLACE_WITH_STOCK_SELECTOR"
+    }
+  }
+}

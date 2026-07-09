@@ -5,7 +5,7 @@
   Upload Files → Store Temporarily → Trigger Ingestion → Monitor Progress → Vector Store Ready
 """
 
-from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, BackgroundTasks
 from typing import List, Optional, Dict
 import logging
 import os
@@ -49,7 +49,14 @@ def _get_merchant_raw_docs_dir(merchant_id: str) -> str:
 
 # ==================== 后台摄取任务 ====================
 
-async def _background_ingest_task(upload_id: str, merchant_id: str, upload_dir: str):
+async def _background_ingest_task(
+    upload_id: str,
+    merchant_id: str,
+    upload_dir: str,
+    product_id: Optional[str] = None,
+    platform: Optional[str] = None,
+    shop_id: Optional[str] = None,
+):
     """
     后台摄取任务：处理上传的文件并写入向量库
 
@@ -119,6 +126,9 @@ async def _background_ingest_task(upload_id: str, merchant_id: str, upload_dir: 
             merchant_dir=os.path.join(os.getcwd(), "data", "merchants", merchant_id),
             chunk_size=settings.chunk_size,
             chunk_overlap=settings.chunk_overlap,
+            product_id=product_id,
+            platform=platform,
+            shop_id=shop_id,
         )
 
         logger.info(f"Ingestion result: {result}")
@@ -162,9 +172,12 @@ async def _background_ingest_task(upload_id: str, merchant_id: str, upload_dir: 
 
 @router.post("/upload", response_model=KnowledgeUploadResponse)
 async def upload_knowledge(
-    merchant_id: str,
+    merchant_id: str = Form(...),
     files: List[UploadFile] = File(...),
     background_tasks: BackgroundTasks = None,
+    product_id: Optional[str] = Form(None),
+    platform: Optional[str] = Form(None),
+    shop_id: Optional[str] = Form(None),
 ) -> KnowledgeUploadResponse:
     """
     上传商家知识库文档
@@ -237,6 +250,9 @@ async def upload_knowledge(
         task_data = {
             "upload_id": upload_id,
             "merchant_id": merchant_id,
+            "product_id": product_id,
+            "platform": platform,
+            "shop_id": shop_id,
             "status": "pending",
             "files_received": saved_files,
             "documents_processed": 0,
@@ -257,6 +273,9 @@ async def upload_knowledge(
                 upload_id=upload_id,
                 merchant_id=merchant_id,
                 upload_dir=upload_dir,
+                product_id=product_id,
+                platform=platform,
+                shop_id=shop_id,
             )
         
         logger.info(f"Upload task created: upload_id={upload_id}, saved_files={saved_files}")
@@ -348,6 +367,11 @@ async def start_ingestion(
         # 获取上传目录
         upload_dir = _get_merchant_upload_dir(merchant_id)
 
+        # 从任务中提取 product_id
+        product_id = task.get("product_id")
+        platform = task.get("platform")
+        shop_id = task.get("shop_id")
+
         # 添加后台任务
         if background_tasks:
             background_tasks.add_task(
@@ -355,6 +379,9 @@ async def start_ingestion(
                 upload_id=upload_id,
                 merchant_id=merchant_id,
                 upload_dir=upload_dir,
+                product_id=product_id,
+                platform=platform,
+                shop_id=shop_id,
             )
 
         logger.info(f"Ingestion started for upload_id={upload_id}")
@@ -392,6 +419,9 @@ async def list_uploads(merchant_id: Optional[str] = None) -> dict:
             result.append({
                 "upload_id": task["upload_id"],
                 "merchant_id": task["merchant_id"],
+                "product_id": task.get("product_id"),
+                "platform": task.get("platform"),
+                "shop_id": task.get("shop_id"),
                 "status": task["status"],
                 "files_received": task.get("files_received", 0),
                 "documents_processed": task.get("documents_processed", 0),

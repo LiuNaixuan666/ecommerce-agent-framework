@@ -1,9 +1,13 @@
 fastapi
 uvicorn
 langchain
+langchain-chroma==1.1.0
 openai
 chromadb
 python-docx
 pypdf
 pandas
 python-dotenv
+redis
+SQLAlchemy
+psycopg2-binary

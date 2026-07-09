@@ -126,16 +126,20 @@ RAG（Retrieval-Augmented Generation）是一种将检索与生成结合的架�
 
 
 
-让 engine.initialize() 在应用启动时触发
-已修改：
+让 `engine.initialize()` 在应用启动时触发
 
-app/main.py
-新增内容：
+已修改 `app/main.py`：
 
-@app.on_event("startup")
-启动时调用 engine.initialize()
-启动失败时记录日志
-健康检查 /health 会显示 initializing 或 healthy
+```python
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    engine.initialize()
+    yield
+```
+
+- 启动时通过 FastAPI lifespan 调用 `engine.initialize()`
+- 启动失败时记录日志
+- 健康检查 `/health` 会显示 `initializing` 或 `healthy`
 3. 这样做的意义
 把 engine.initialize() 放到应用启动事件里，主要是为了：
 

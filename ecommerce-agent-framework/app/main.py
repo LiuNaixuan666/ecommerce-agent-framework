@@ -4,6 +4,8 @@ FastAPI Application Entry Point
 This module creates and configures the FastAPI application for the e-commerce agent framework.
 """
 
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
@@ -12,10 +14,16 @@ import logging
 from app.api.routes_chat import router as chat_router
 from app.api.routes_knowledge import router as knowledge_router
 from app.api.routes_extension import router as extension_router
+from app.api.routes_local_agent import router as local_agent_router
+from app.api.routes_platform import router as platform_router
+from app.api.routes_products import router as products_router
+from app.api.routes_agent_rules import router as agent_rules_router
+from app.api.routes_handoff import router as handoff_router
 # from app.api.routes_evaluation import router as evaluation_router  # TODO: implement later
+from app.api.routes_platform_browser import router as platform_browser_router
 from app.engine import engine
 from app.storage.storage_manager import storage_manager
-from app.connectors.chat_manager import ChatManager
+from app.connectors.chat_manager import chat_manager
 from app.config import settings
 
 # Configure logging
@@ -25,11 +33,73 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+def _build_platform_configs():
+    platform_configs = {}
+
+    if settings.xiaohongshu_app_id and settings.xiaohongshu_app_secret:
+        platform_configs["xiaohongshu"] = {
+            "app_id": settings.xiaohongshu_app_id,
+            "app_secret": settings.xiaohongshu_app_secret,
+            "webhook_token": settings.xiaohongshu_webhook_token,
+            "merchant_id": settings.xiaohongshu_merchant_id,
+            "api_base_url": settings.xiaohongshu_api_base_url,
+            "listen_mode": "both",
+        }
+
+    if settings.taobao_app_key and settings.taobao_app_secret:
+        platform_configs["taobao"] = {
+            "app_key": settings.taobao_app_key,
+            "app_secret": settings.taobao_app_secret,
+            "session_key": settings.taobao_session_key,
+        }
+
+    if settings.jd_app_key and settings.jd_app_secret:
+        platform_configs["jd"] = {
+            "app_key": settings.jd_app_key,
+            "app_secret": settings.jd_app_secret,
+        }
+
+    return platform_configs
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    logger.info("Starting up E-commerce Agent Framework...")
+
+    platform_configs = _build_platform_configs()
+    if platform_configs:
+        success = await chat_manager.initialize(platform_configs)
+        if success:
+            await chat_manager.start()
+            logger.info("Chat manager started with platforms: %s", list(platform_configs))
+        else:
+            logger.warning("Failed to start chat manager")
+    else:
+        logger.info("No platform configurations found, chat manager not started")
+
+    try:
+        engine.initialize()
+        logger.info("Engine initialized on startup")
+        storage_stats = storage_manager.get_stats()
+        logger.info("Storage manager initialized: %s", storage_stats)
+    except Exception:
+        logger.exception("Initialization failed on startup")
+
+    try:
+        yield
+    finally:
+        logger.info("Shutting down E-commerce Agent Framework...")
+        await chat_manager.stop()
+        logger.info("Chat manager stopped")
+
+
 # Create FastAPI application
 app = FastAPI(
     title="E-commerce Agent Framework",
     description="Intelligent customer service agent for e-commerce platforms with RAG and uncertainty detection",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan,
 )
 
 # Add CORS middleware
@@ -45,60 +115,13 @@ app.add_middleware(
 app.include_router(chat_router)
 app.include_router(knowledge_router)
 app.include_router(extension_router)
+app.include_router(local_agent_router)
+app.include_router(platform_router)
+app.include_router(products_router)
+app.include_router(agent_rules_router)
+app.include_router(handoff_router)
+app.include_router(platform_browser_router)
 # app.include_router(evaluation_router)  # TODO: implement later
-
-# Global chat manager instance
-chat_manager = ChatManager()
-
-@app.on_event("startup")
-async def startup_event():
-    """Application startup event"""
-    logger.info("Starting up E-commerce Agent Framework...")
-
-    # Initialize chat manager with platform configurations from settings
-    platform_configs = {}
-
-    # Xiaohongshu configuration
-    if settings.xiaohongshu_app_id and settings.xiaohongshu_app_secret:
-        platform_configs['xiaohongshu'] = {
-            'app_id': settings.xiaohongshu_app_id,
-            'app_secret': settings.xiaohongshu_app_secret,
-            'webhook_token': settings.xiaohongshu_webhook_token,
-            'merchant_id': settings.xiaohongshu_merchant_id,
-            'api_base_url': settings.xiaohongshu_api_base_url
-        }
-
-    # Taobao configuration
-    if settings.taobao_app_key and settings.taobao_app_secret:
-        platform_configs['taobao'] = {
-            'app_key': settings.taobao_app_key,
-            'app_secret': settings.taobao_app_secret,
-            'session_key': settings.taobao_session_key
-        }
-
-    # JD configuration
-    if settings.jd_app_key and settings.jd_app_secret:
-        platform_configs['jd'] = {
-            'app_key': settings.jd_app_key,
-            'app_secret': settings.jd_app_secret
-        }
-
-    if platform_configs:
-        success = await chat_manager.initialize(platform_configs)
-        if success:
-            await chat_manager.start()
-            logger.info(f"Chat manager started with platforms: {list(platform_configs.keys())}")
-        else:
-            logger.warning("Failed to start chat manager")
-    else:
-        logger.info("No platform configurations found, chat manager not started")
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Application shutdown event"""
-    logger.info("Shutting down E-commerce Agent Framework...")
-    await chat_manager.stop()
-    logger.info("Chat manager stopped")
 
 @app.get("/")
 async def root():
@@ -163,21 +186,6 @@ async def health_check():
         "components": components,
         "version": "1.0.0",
     }
-
-@app.on_event("startup")
-async def startup_event():
-    """在应用启动时初始化引擎和商家检索器。"""
-    try:
-        engine.initialize()
-        logger.info("Engine initialized on startup")
-
-        # 初始化存储管理器
-        # 这会触发Redis和PostgreSQL连接的建立
-        storage_stats = storage_manager.get_stats()
-        logger.info(f"Storage manager initialized: {storage_stats}")
-
-    except Exception as e:
-        logger.exception(f"Initialization failed on startup: {e}")
 
 if __name__ == "__main__":
     import uvicorn

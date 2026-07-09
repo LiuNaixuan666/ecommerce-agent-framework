@@ -26,6 +26,7 @@ class ChatManager:
 
     def __init__(self):
         self.adapters: Dict[str, ChatAdapter] = {}
+        self.adapter_modes: Dict[str, str] = {}
         self.active_conversations: Dict[str, Conversation] = {}
         self.message_queue = asyncio.Queue()
         self.processing_tasks: Set[asyncio.Task] = set()
@@ -37,6 +38,8 @@ class ChatManager:
             for platform, config in platform_configs.items():
                 adapter = None
                 adapter_class_path = config.get('adapter_class') or config.get('adapter_class_path')
+                listen_mode = config.get('listen_mode', 'polling').lower()
+                self.adapter_modes[platform] = listen_mode
 
                 if adapter_class_path:
                     try:
@@ -60,7 +63,7 @@ class ChatManager:
                 success = await adapter.initialize(config)
                 if success:
                     self.adapters[platform] = adapter
-                    logger.info(f"Initialized adapter for platform: {platform}")
+                    logger.info(f"Initialized adapter for platform: {platform} in mode {listen_mode}")
                 else:
                     logger.error(f"Failed to initialize adapter for platform: {platform}")
 
@@ -82,12 +85,49 @@ class ChatManager:
         processor_task = asyncio.create_task(self._process_message_queue())
         self.processing_tasks.add(processor_task)
 
-        # Start listening on all adapters
+        # Start listening on adapters configured for polling
         for platform, adapter in self.adapters.items():
-            listener_task = asyncio.create_task(self._listen_to_adapter(platform, adapter))
-            self.processing_tasks.add(listener_task)
+            mode = self.adapter_modes.get(platform, 'polling')
+            if mode in ['polling', 'both']:
+                listener_task = asyncio.create_task(self._listen_to_adapter(platform, adapter))
+                self.processing_tasks.add(listener_task)
+                logger.info(f"Started polling listener for {platform}")
+            else:
+                logger.info(f"Skipping polling listener for {platform} (mode={mode})")
 
         logger.info(f"Chat manager started with {len(self.adapters)} platforms")
+
+    async def process_webhook_event(self, platform: str, payload: Dict[str, Any]) -> bool:
+        """Process an incoming webhook payload for a configured adapter"""
+        if platform not in self.adapters:
+            logger.error(f"Webhook received for unconfigured platform: {platform}")
+            return False
+
+        adapter = self.adapters[platform]
+
+        if hasattr(adapter, 'validate_webhook'):
+            try:
+                is_valid = await adapter.validate_webhook(payload)
+            except Exception as e:
+                logger.error(f"Error validating webhook for {platform}: {e}")
+                return False
+            if not is_valid:
+                logger.warning(f"Webhook validation failed for {platform}")
+                return False
+
+        if not hasattr(adapter, 'parse_webhook'):
+            logger.warning(f"Adapter {platform} does not implement parse_webhook")
+            return False
+
+        try:
+            message = await adapter.parse_webhook(payload)
+            message.metadata['platform'] = platform
+            await self.message_queue.put(message)
+            logger.info(f"Queued webhook message from {platform}: {message.message_id}")
+            return True
+        except Exception as e:
+            logger.error(f"Failed to parse webhook payload for {platform}: {e}")
+            return False
 
     async def stop(self):
         """Stop the chat manager"""
@@ -133,6 +173,10 @@ class ChatManager:
     async def _listen_to_adapter(self, platform: str, adapter: ChatAdapter):
         """Listen for messages from a specific adapter"""
         try:
+            if not hasattr(adapter, 'listen_for_messages'):
+                logger.warning(f"Adapter {platform} does not support polling listen_for_messages")
+                return
+
             async for message in adapter.listen_for_messages():
                 # Add platform info to message
                 message.metadata['platform'] = platform
@@ -280,9 +324,16 @@ class ChatManager:
 
         storage_manager.add_message(message.conversation_id, message_data)
 
-        # Update conversation
+        # Update conversation in session storage and metadata
         conversation.message_count += 1
         conversation.last_updated = datetime.now()
+
+        stored_conv = storage_manager.get_conversation(message.conversation_id) or {}
+        stored_conv.update({
+            'last_updated': conversation.last_updated.isoformat(),
+            'message_count': conversation.message_count
+        })
+        storage_manager.save_conversation(message.conversation_id, stored_conv)
 
         conv_data = {
             'last_updated': conversation.last_updated.isoformat(),
@@ -352,3 +403,7 @@ class ChatManager:
                 conversations.extend(convs)
 
         return conversations
+
+
+# Global chat manager instance for application-wide access
+chat_manager = ChatManager()

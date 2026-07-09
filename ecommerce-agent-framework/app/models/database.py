@@ -5,9 +5,8 @@
 """
 
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Text, DateTime, Float, Boolean, JSON, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Text, DateTime, Float, Boolean, JSON, ForeignKey, Index
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -47,7 +46,7 @@ class IngestionTask(Base):
 
 
 class Conversation(Base):
-    """会话表（主要元数据，消息存储在Redis中）"""
+    """会话元数据及平台扩展状态。"""
     __tablename__ = "conversations"
 
     id = Column(String(36), primary_key=True)  # UUID
@@ -57,9 +56,11 @@ class Conversation(Base):
     last_intent = Column(String(50), nullable=True)
     status = Column(String(20), default="active")  # active, closed
     message_count = Column(Integer, default=0)
+    extra_data = Column("metadata", JSON, default=dict)
 
     def to_dict(self):
-        return {
+        result = dict(self.extra_data or {})
+        result.update({
             "conversation_id": self.id,
             "merchant_id": self.merchant_id,
             "created_at": self.created_at.isoformat() if self.created_at else None,
@@ -67,7 +68,39 @@ class Conversation(Base):
             "last_intent": self.last_intent,
             "status": self.status,
             "message_count": self.message_count
+        })
+        return result
+
+
+class ConversationMessageRecord(Base):
+    """永久保存的会话消息，包括 AI 检索证据。"""
+    __tablename__ = "conversation_messages"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    conversation_id = Column(
+        String(36),
+        ForeignKey("conversations.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    role = Column(String(30), nullable=False)
+    content = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    message_metadata = Column("metadata", JSON, default=dict)
+
+    __table_args__ = (
+        Index("ix_conversation_messages_conversation_created", "conversation_id", "created_at"),
+    )
+
+    def to_dict(self):
+        result = {
+            "role": self.role,
+            "content": self.content,
+            "timestamp": self.created_at.isoformat() if self.created_at else None,
         }
+        if self.message_metadata:
+            result["metadata"] = self.message_metadata
+        return result
 
 
 class Merchant(Base):

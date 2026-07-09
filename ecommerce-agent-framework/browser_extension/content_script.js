@@ -1,15 +1,48 @@
+function normalizeText(selector) {
+  const element = document.querySelector(selector);
+  if (!element) {
+    return '';
+  }
+  return element.textContent?.trim() || element.value?.trim() || '';
+}
+
+function getSkuFromUrl(url) {
+  const skuMatch = url.match(/(sku|id)=([0-9]+)/i);
+  return skuMatch ? skuMatch[2] : '';
+}
+
 function extractProductContext() {
-  const title = document.querySelector('h1, .product-title, .sku-name, .product-name')?.textContent?.trim() || document.title;
-  const price = document.querySelector('.price, .product-price, .sku-page-price, .J_price')?.textContent?.trim() || '';
-  const stock = document.querySelector('.stock, .inventory, .stock-status, .sold-out, .out-of-stock')?.textContent?.trim() || '';
+  const url = window.location.href;
+  const domain = window.location.hostname.toLowerCase();
+  let product_name = document.title || '';
+  let price = '';
+  let stock = '';
+  let sku = getSkuFromUrl(url);
+
+  if (domain.includes('taobao.com') || domain.includes('tmall.com')) {
+    product_name = normalizeText('.tb-main-title') || normalizeText('#J_Title .tb-main-title') || normalizeText('#J_Header .tb-main-title') || normalizeText('.product-name');
+    price = normalizeText('.tm-price') || normalizeText('.tb-rmb-num') || normalizeText('#J_PromoPriceNum') || normalizeText('#J_PromoPriceNumTip');
+    stock = normalizeText('#J_EmStock') || normalizeText('#J_Stock') || normalizeText('.tb-sell-counter') || normalizeText('.tb-amount') || normalizeText('.J_AmountInput');
+    sku = sku || document.querySelector('[data-sku]')?.getAttribute('data-sku') || document.querySelector('#J_SkuId')?.value || '';
+  } else if (domain.includes('jd.com')) {
+    product_name = normalizeText('.sku-name') || normalizeText('#itemInfo .sku-name') || normalizeText('.sku-name strong');
+    price = normalizeText('.price') || normalizeText('#jd-price') || normalizeText('.J_price') || normalizeText('.p-price .price');
+    stock = normalizeText('#stock .p-stock') || normalizeText('.p-state') || normalizeText('.p-quantity') || normalizeText('.stock-state') || normalizeText('.btn-special');
+    sku = sku || document.querySelector('[data-sku]')?.getAttribute('data-sku') || document.querySelector('#wareId')?.value || '';
+  } else {
+    product_name = normalizeText('h1') || normalizeText('.product-title') || normalizeText('.sku-name') || normalizeText('.product-name');
+    price = normalizeText('.price') || normalizeText('.product-price') || normalizeText('.sku-page-price') || normalizeText('.J_price');
+    stock = normalizeText('.stock') || normalizeText('.inventory') || normalizeText('.stock-status') || normalizeText('.sold-out') || normalizeText('.out-of-stock');
+  }
 
   return {
-    page_url: window.location.href,
-    product_name: title,
-    price: price,
-    stock: stock,
+    page_url: url,
+    product_name,
+    sku,
+    price,
+    stock,
     extra: {
-      title_selector: title ? 'h1 or product title' : null,
+      page_domain: domain,
       scraped_at: new Date().toISOString()
     }
   };
@@ -33,6 +66,6 @@ async function sendPageContext(context) {
 }
 
 const context = extractProductContext();
-if (context.product_name || context.price || context.stock) {
+if (context.product_name || context.price || context.stock || context.sku) {
   sendPageContext(context);
 }

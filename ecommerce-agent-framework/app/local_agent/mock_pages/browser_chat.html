@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Browser Mock Chat</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 24px;
+        color: #111827;
+        background: #f8fafc;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 280px;
+        gap: 16px;
+        max-width: 960px;
+        margin: 0 auto;
+      }
+
+      section,
+      aside {
+        background: #ffffff;
+        border: 1px solid #dbe3ef;
+        border-radius: 8px;
+        padding: 16px;
+      }
+
+      .messages {
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .message {
+        max-width: 72%;
+        border: 1px solid #c7d2fe;
+        border-radius: 8px;
+        padding: 10px 12px;
+        background: #eef2ff;
+      }
+
+      .sent {
+        align-self: flex-end;
+        border-color: #bbf7d0;
+        background: #ecfdf5;
+      }
+
+      .composer {
+        display: flex;
+        gap: 8px;
+      }
+
+      textarea {
+        flex: 1;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px;
+        min-height: 64px;
+        resize: vertical;
+      }
+
+      button {
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 14px;
+        background: #2563eb;
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      dt {
+        color: #64748b;
+        font-size: 13px;
+      }
+
+      dd {
+        margin: 0 0 10px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-testid="chat-root">
+      <section>
+        <h1>Browser Mock Customer Service</h1>
+        <div class="messages" data-testid="message-list">
+          <div
+            class="message"
+            data-testid="buyer-message"
+            data-message-id="buyer-msg-001"
+            data-conversation-id="browser-conv-001"
+            data-customer-id="buyer-001"
+            data-customer-name="Mock Buyer"
+          >
+            Is this item in stock?
+          </div>
+        </div>
+        <div class="composer">
+          <textarea data-testid="reply-input" aria-label="reply input"></textarea>
+          <button data-testid="send-button" type="button">Send</button>
+        </div>
+      </section>
+
+      <aside>
+        <h2>Product</h2>
+        <dl>
+          <dt>Name</dt>
+          <dd data-testid="product-name">Browser Test Product</dd>
+          <dt>SKU</dt>
+          <dd data-testid="sku">SKU-001</dd>
+          <dt>Stock</dt>
+          <dd data-testid="stock">12</dd>
+        </dl>
+      </aside>
+    </main>
+    <script>
+      const input = document.querySelector("[data-testid='reply-input']");
+      const button = document.querySelector("[data-testid='send-button']");
+      const list = document.querySelector("[data-testid='message-list']");
+
+      button.addEventListener("click", () => {
+        const text = input.value.trim();
+        if (!text) return;
+        const node = document.createElement("div");
+        node.className = "message sent";
+        node.dataset.testid = "sent-message";
+        node.textContent = text;
+        list.appendChild(node);
+        input.value = "";
+      });
+    </script>
+  </body>
+</html>

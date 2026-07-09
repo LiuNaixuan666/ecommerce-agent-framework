@@ -89,7 +89,7 @@ async def page_chat(request: PageChatRequest) -> Dict[str, Any]:
         "status": "ok",
         "merchant_id": request.merchant_id,
         "conversation_id": request.conversation_id,
-        "page_context": page.dict(),
+        "page_context": page.model_dump(),
         "user_query": request.user_query,
         "answer": answer,
         "source": "extension_poc",

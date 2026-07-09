@@ -1,6 +1,41 @@
+# --- Python ---
 __pycache__/
-.env
+*.py[cod]
+*.egg-info/
+.pytest_cache/
 venv/
 *.db
+
+# --- Node / Frontend ---
+frontend/node_modules/
+frontend/dist/
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Environment (keep .env.example, ignore actual .env) ---
+.env
+
+# --- Runtime data ---
 data/merchants/*
 !data/merchants/.gitkeep
+data/browser_profiles/
+data/vector_stores/
+data/uploads_staging/
+data/pdd_diagnose/
+data/products/
+data/test_docs/
+data/agent_rules.json
+data/handoff_tickets.json
+output/
+tmp/
+tmp_*/
+
+# --- Logs ---
+*.log
+
+# --- Claude persistent memory (project-level, not repo-level) ---
+memory/

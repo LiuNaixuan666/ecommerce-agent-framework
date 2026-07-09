@@ -5,6 +5,7 @@
 ## 设计思想
 - `content_script.js` 在页面加载后提取商品标题、价格、库存等信息。
 - 提取到的上下文发送到本地接口 `http://localhost:8000/api/extension/page-context`。
+- 支持 Taobao/天猫 和 JD 平台的商品页面 DOM 规则抽取。
 - `popup.html` 提供一个输入框，用户可以输入问题并将页面上下文一起发送到 `http://localhost:8000/api/extension/page-chat`。
 
 ## 安装步骤

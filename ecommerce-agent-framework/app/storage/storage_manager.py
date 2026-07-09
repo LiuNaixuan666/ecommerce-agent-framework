@@ -23,11 +23,20 @@ class StorageManager:
 
     def _get_session_backend(self):
         """获取会话存储后端"""
-        if settings.session_storage == "redis" and redis_storage.client:
+        mode = settings.session_storage.lower()
+        if mode == "hybrid" and postgres_storage.engine:
+            cache = redis_storage if redis_storage.client else None
+            return LayeredSessionStorage(primary=postgres_storage, cache=cache)
+        if mode == "postgres" and postgres_storage.engine:
+            return postgres_storage
+        if mode in {"hybrid", "postgres"} and redis_storage.client:
+            logger.warning("PostgreSQL unavailable; session storage is falling back to Redis")
             return redis_storage
-        else:
-            # 默认使用内存存储
-            return MemorySessionStorage()
+        if mode == "redis" and redis_storage.client:
+            return redis_storage
+        if mode not in {"memory", "redis", "postgres", "hybrid"}:
+            logger.warning("Unknown SESSION_STORAGE=%s; using memory", settings.session_storage)
+        return MemorySessionStorage()
 
     def _get_ingestion_backend(self):
         """获取摄取任务存储后端"""
@@ -93,24 +102,32 @@ class StorageManager:
 
     def save_conversation_metadata(self, conversation_data: Dict[str, Any]) -> bool:
         """保存会话元数据"""
+        if settings.session_storage.lower() in {"postgres", "hybrid"} and postgres_storage.engine:
+            return postgres_storage.save_conversation_metadata(conversation_data)
         if hasattr(self.ingestion_backend, 'save_conversation_metadata'):
             return self.ingestion_backend.save_conversation_metadata(conversation_data)
         return False
 
     def get_conversation_metadata(self, conversation_id: str) -> Optional[Dict[str, Any]]:
         """获取会话元数据"""
+        if settings.session_storage.lower() in {"postgres", "hybrid"} and postgres_storage.engine:
+            return postgres_storage.get_conversation_metadata(conversation_id)
         if hasattr(self.ingestion_backend, 'get_conversation_metadata'):
             return self.ingestion_backend.get_conversation_metadata(conversation_id)
         return None
 
     def update_conversation_metadata(self, conversation_id: str, updates: Dict[str, Any]) -> bool:
         """更新会话元数据"""
+        if settings.session_storage.lower() in {"postgres", "hybrid"} and postgres_storage.engine:
+            return postgres_storage.update_conversation_metadata(conversation_id, updates)
         if hasattr(self.ingestion_backend, 'update_conversation_metadata'):
             return self.ingestion_backend.update_conversation_metadata(conversation_id, updates)
         return False
 
     def list_conversations_metadata(self, merchant_id: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
         """列出会话元数据"""
+        if settings.session_storage.lower() in {"postgres", "hybrid"} and postgres_storage.engine:
+            return postgres_storage.list_conversations_metadata(merchant_id, limit)
         if hasattr(self.ingestion_backend, 'list_conversations_metadata'):
             return self.ingestion_backend.list_conversations_metadata(merchant_id, limit)
         return []
@@ -195,6 +212,102 @@ class MemorySessionStorage:
             "status": "memory",
             "total_conversations": len(self.conversations),
             "total_messages": sum(len(msgs) for msgs in self.messages.values())
+        }
+
+
+class LayeredSessionStorage:
+    """PostgreSQL 主存储加可选 Redis 缓存。"""
+
+    def __init__(self, primary: Any, cache: Optional[Any] = None):
+        self.primary = primary
+        self.cache = cache
+        self._migrate_cache_snapshot()
+
+    def _migrate_cache_snapshot(self) -> None:
+        """Copy pre-hybrid Redis sessions without overwriting durable history."""
+        if not self.cache:
+            return
+        migrated_conversations = 0
+        migrated_messages = 0
+        try:
+            for conversation_id in self.cache.list_conversations(limit=10000):
+                cached_conversation = self.cache.get_conversation(conversation_id)
+                if not cached_conversation:
+                    continue
+
+                persisted_conversation = self.primary.get_conversation(conversation_id) or {}
+                merged_conversation = {**persisted_conversation, **cached_conversation}
+                if self.primary.save_conversation(conversation_id, merged_conversation):
+                    migrated_conversations += 1
+
+                if self.primary.get_messages(conversation_id, limit=1):
+                    continue
+                cached_messages = self.cache.get_messages(conversation_id, limit=100)
+                if cached_messages and self.primary.save_messages(conversation_id, cached_messages):
+                    migrated_messages += len(cached_messages)
+            if migrated_conversations or migrated_messages:
+                logger.info(
+                    "Migrated Redis session snapshot to primary storage: conversations=%s messages=%s",
+                    migrated_conversations,
+                    migrated_messages,
+                )
+        except Exception as exc:
+            logger.warning("Failed to migrate Redis session snapshot: %s", exc)
+
+    def save_conversation(self, conversation_id: str, data: Dict[str, Any]) -> bool:
+        primary_ok = self.primary.save_conversation(conversation_id, data)
+        cache_ok = self.cache.save_conversation(conversation_id, data) if self.cache else False
+        return primary_ok or cache_ok
+
+    def get_conversation(self, conversation_id: str) -> Optional[Dict[str, Any]]:
+        if self.cache:
+            cached = self.cache.get_conversation(conversation_id)
+            if cached:
+                return cached
+        persisted = self.primary.get_conversation(conversation_id)
+        if persisted and self.cache:
+            self.cache.save_conversation(conversation_id, persisted)
+        return persisted
+
+    def delete_conversation(self, conversation_id: str) -> bool:
+        primary_ok = self.primary.delete_conversation(conversation_id)
+        cache_ok = self.cache.delete_conversation(conversation_id) if self.cache else False
+        return primary_ok or cache_ok
+
+    def save_messages(self, conversation_id: str, messages: List[Dict[str, Any]]) -> bool:
+        primary_ok = self.primary.save_messages(conversation_id, messages)
+        cache_ok = self.cache.save_messages(conversation_id, messages) if self.cache else False
+        return primary_ok or cache_ok
+
+    def get_messages(self, conversation_id: str, limit: int = 10, offset: int = 0) -> List[Dict[str, Any]]:
+        # PostgreSQL remains authoritative because Redis intentionally keeps only a short window.
+        persisted = self.primary.get_messages(conversation_id, limit, offset)
+        if persisted:
+            return persisted
+        if self.cache:
+            return self.cache.get_messages(conversation_id, limit, offset)
+        return []
+
+    def add_message(self, conversation_id: str, message: Dict[str, Any]) -> bool:
+        primary_ok = self.primary.add_message(conversation_id, message)
+        cache_ok = self.cache.add_message(conversation_id, message) if self.cache else False
+        return primary_ok or cache_ok
+
+    def list_conversations(self, merchant_id: Optional[str] = None, limit: int = 50) -> List[str]:
+        persisted = self.primary.list_conversations(merchant_id, limit)
+        if persisted:
+            return persisted
+        if self.cache:
+            return self.cache.list_conversations(merchant_id, limit)
+        return []
+
+    def get_stats(self) -> Dict[str, Any]:
+        return {
+            "status": "hybrid",
+            "primary": self.primary.get_stats() if hasattr(self.primary, "get_stats") else {},
+            "cache": self.cache.get_stats() if self.cache and hasattr(self.cache, "get_stats") else {
+                "status": "disabled"
+            },
         }
 
 

@@ -1,10 +1,3 @@
-import pytest
-from unittest.mock import Mock, patch
-from pathlib import Path
-import app.rag.vector_store 
-import app.knowledge.ingestion
-
-
 def test_ingest_merchant_documents(tmp_path, monkeypatch):
     """
     Test ingestion pipeline with mocked Chroma and embeddings (no real API calls).
@@ -47,12 +40,17 @@ def test_ingest_merchant_documents(tmp_path, monkeypatch):
         encoding="utf-8"
     )
 
-    # Patch get_or_create_chroma and OpenAIEmbeddings
-    with patch("app.rag.vector_store.get_or_create_chroma", side_effect=mock_get_or_create_chroma):
-        with patch("app.knowledge.ingestion.OpenAIEmbeddings", return_value=MockEmbeddings()):
-            from app.knowledge.ingestion import ingest_merchant_documents
+    monkeypatch.setattr(
+        "app.knowledge.ingestion.get_or_create_chroma",
+        mock_get_or_create_chroma,
+    )
+    from app.knowledge.ingestion import ingest_merchant_documents
 
-            result = ingest_merchant_documents("merchant_test", merchant_dir=str(merchant_dir))
+    result = ingest_merchant_documents(
+        "merchant_test",
+        merchant_dir=str(merchant_dir),
+        embeddings=MockEmbeddings(),
+    )
 
     assert isinstance(result, dict)
     assert result.get("status") == "ok"

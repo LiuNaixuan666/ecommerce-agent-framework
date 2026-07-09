@@ -301,15 +301,43 @@ class XiaohongshuChatAdapter(ChatAdapter):
 
     async def validate_webhook(self, request_data: Dict[str, Any]) -> bool:
         """Validate incoming webhook requests"""
-        # Implement webhook signature validation
-        # This depends on Xiaohongshu's webhook security mechanism
         signature = request_data.get('signature', '')
         timestamp = request_data.get('timestamp', '')
 
-        # Placeholder validation logic
-        expected_signature = self._calculate_webhook_signature(timestamp)
+        if not signature or not timestamp:
+            logger.warning("Webhook request missing signature or timestamp")
+            return False
 
+        expected_signature = self._calculate_webhook_signature(timestamp)
         return signature == expected_signature
+
+    async def parse_webhook(self, request_data: Dict[str, Any]) -> ChatMessage:
+        """Parse webhook payload into a ChatMessage"""
+        payload = request_data.get('message', request_data)
+        msg_id = payload.get('id') or payload.get('message_id') or f"webhook_{int(datetime.now().timestamp())}"
+        conversation_id = payload.get('conversation_id') or payload.get('thread_id') or payload.get('platform_conversation_id', '')
+        platform_conversation_id = payload.get('platform_conversation_id') or payload.get('conversation_id', conversation_id)
+        sender_type = payload.get('sender_type', 'user')
+        timestamp_value = payload.get('timestamp')
+        timestamp = datetime.now()
+
+        if timestamp_value:
+            try:
+                timestamp = datetime.fromisoformat(timestamp_value)
+            except Exception:
+                timestamp = datetime.now()
+
+        return ChatMessage(
+            message_id=msg_id,
+            conversation_id=conversation_id,
+            platform_conversation_id=platform_conversation_id,
+            sender_id=payload.get('sender_id', payload.get('user_id', 'unknown')),
+            sender_type=sender_type,
+            content=payload.get('content', ''),
+            content_type=payload.get('content_type', 'text'),
+            timestamp=timestamp,
+            metadata=payload.get('metadata', {})
+        )
 
     def _calculate_webhook_signature(self, timestamp: str) -> str:
         """Calculate webhook signature"""

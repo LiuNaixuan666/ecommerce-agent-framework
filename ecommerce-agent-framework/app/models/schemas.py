@@ -19,6 +19,10 @@ class ConversationMessage(BaseModel):
     role: str = Field(..., description="消息角色: 'user' 或 'assistant'")
     content: str = Field(..., description="消息内容")
     timestamp: Optional[datetime] = Field(default_factory=datetime.now, description="消息时间戳")
+    metadata: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="消息元数据，包括检索证据与发送状态",
+    )
 
 
 class ChatRequest(BaseModel):

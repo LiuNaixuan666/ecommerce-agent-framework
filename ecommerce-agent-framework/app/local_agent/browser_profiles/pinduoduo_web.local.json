@@ -1,0 +1,22 @@
+{
+  "name": "pinduoduo_web",
+  "platform": "pinduoduo",
+  "default_url": "https://mms.pinduoduo.com/chat-merchant/index.html?r=0.5541775007481573#/",
+  "default_conversation_id": "pdd-browser-conversation",
+  "selectors": {
+    "root": "div.content",
+    "buyer_messages": "div.buyer-item:not(:has(.good-card))",
+    "reply_input": "#replyTextarea",
+    "send_button": "div.send-btn",
+    "sent_messages": "div.cs-item p.msg-content-box",
+    "message_id_attr": "data-message-id",
+    "conversation_id_attr": "data-conversation-id",
+    "customer_id_attr": "data-customer-id",
+    "customer_name_attr": "data-customer-name",
+    "product_fields": {
+      "product_name": "a.good-detail",
+      "sku": "p.good-id",
+      "price": "span.good-price"
+    }
+  }
+}

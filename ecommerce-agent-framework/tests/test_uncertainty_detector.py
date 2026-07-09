@@ -220,17 +220,18 @@ class TestUncertaintyDecision:
         assert result.is_uncertain == False
         assert "CONFIDENT" in result.recommendation
     
-    def test_low_retrieval_triggers_clarification(self):
-        """测试低检索置信度触发澄清"""
+    def test_retrieval_at_threshold_uses_cautious_response(self):
+        """测试检索置信度等于阈值时采用谨慎回答"""
         result = UncertaintyDetector.detect(
-            retrieval_scores=[0.3],  # 低于阈值
+            retrieval_scores=[0.3],
             retrieved_documents=["弱相关"],
             user_query="某个模糊的东西",
             intent_confidence=1.0
         )
         
         assert result.is_uncertain == True
-        assert "clarification" in result.recommendation.lower() or "LOW_RETRIEVAL" in result.recommendation
+        assert result.retrieval_confidence == UncertaintyDetector.RETRIEVAL_CONFIDENCE_THRESHOLD
+        assert result.recommendation.startswith("UNCERTAIN:")
     
     def test_ambiguous_query_triggers_clarification(self):
         """测试模糊查询触发澄清"""

@@ -5,7 +5,7 @@ PostgreSQL 存储适配器
 """
 
 from typing import Dict, List, Optional, Any
-from sqlalchemy import create_engine, Column
+from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text
@@ -13,7 +13,7 @@ import logging
 from datetime import datetime
 
 from app.config import settings
-from app.models.database import Base, IngestionTask, Conversation, Merchant
+from app.models.database import Base, IngestionTask, Conversation, ConversationMessageRecord, Merchant
 
 logger = logging.getLogger(__name__)
 
@@ -21,20 +21,24 @@ logger = logging.getLogger(__name__)
 class PostgresStorage:
     """PostgreSQL 存储适配器"""
 
-    def __init__(self):
+    def __init__(self, database_url: Optional[str] = None):
         self.engine = None
         self.SessionLocal = None
-        self._connect()
+        self._connect(database_url)
 
-    def _connect(self):
+    def _connect(self, database_url: Optional[str] = None):
         """连接到PostgreSQL"""
         try:
-            database_url = f"postgresql://{settings.postgres_user}:{settings.postgres_password}@{settings.postgres_host}:{settings.postgres_port}/{settings.postgres_db}"
-            self.engine = create_engine(database_url, echo=False)
+            resolved_url = database_url or (
+                f"postgresql://{settings.postgres_user}:{settings.postgres_password}"
+                f"@{settings.postgres_host}:{settings.postgres_port}/{settings.postgres_db}"
+            )
+            self.engine = create_engine(resolved_url, echo=False)
             self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
 
             # 创建表
             Base.metadata.create_all(bind=self.engine)
+            self._ensure_schema_compatibility()
 
             # 测试连接
             with self.SessionLocal() as session:
@@ -44,12 +48,178 @@ class PostgresStorage:
         except Exception as e:
             logger.warning(f"Failed to connect to PostgreSQL: {e}. Using memory fallback.")
             self.engine = None
+            self.SessionLocal = None
 
     def _get_session(self) -> Session:
         """获取数据库会话"""
         if not self.SessionLocal:
             raise Exception("Database not connected")
         return self.SessionLocal()
+
+    def _ensure_schema_compatibility(self) -> None:
+        """补齐原型阶段创建的旧会话表字段。"""
+        if not self.engine:
+            return
+        columns = {column["name"] for column in inspect(self.engine).get_columns("conversations")}
+        if "metadata" not in columns:
+            with self.engine.begin() as connection:
+                connection.execute(text("ALTER TABLE conversations ADD COLUMN metadata JSON"))
+
+    @staticmethod
+    def _parse_datetime(value: Any, default: Optional[datetime] = None) -> Optional[datetime]:
+        if isinstance(value, datetime):
+            parsed = value
+        elif isinstance(value, str) and value:
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            except ValueError:
+                return default
+        else:
+            return default
+        return parsed.replace(tzinfo=None) if parsed.tzinfo else parsed
+
+    @staticmethod
+    def _conversation_extra_data(data: Dict[str, Any]) -> Dict[str, Any]:
+        core_keys = {
+            "conversation_id",
+            "id",
+            "merchant_id",
+            "created_at",
+            "last_updated",
+            "last_intent",
+            "status",
+            "message_count",
+        }
+        return {key: value for key, value in data.items() if key not in core_keys}
+
+    # === 永久会话与消息存储 ===
+
+    def save_conversation(self, conversation_id: str, data: Dict[str, Any]) -> bool:
+        if not self.engine:
+            return False
+        try:
+            with self._get_session() as session:
+                conversation = session.get(Conversation, conversation_id)
+                if conversation is None:
+                    conversation = Conversation(
+                        id=conversation_id,
+                        merchant_id=data.get("merchant_id") or "default",
+                        created_at=self._parse_datetime(data.get("created_at"), datetime.now()),
+                    )
+                    session.add(conversation)
+
+                conversation.merchant_id = data.get("merchant_id") or conversation.merchant_id or "default"
+                conversation.last_updated = self._parse_datetime(data.get("last_updated"), datetime.now())
+                conversation.last_intent = data.get("last_intent")
+                conversation.status = data.get("status", conversation.status or "active")
+                conversation.message_count = int(data.get("message_count", conversation.message_count or 0))
+                conversation.extra_data = self._conversation_extra_data(data)
+                session.commit()
+                return True
+        except (SQLAlchemyError, TypeError, ValueError) as exc:
+            logger.error("Failed to save conversation %s: %s", conversation_id, exc)
+            return False
+
+    def get_conversation(self, conversation_id: str) -> Optional[Dict[str, Any]]:
+        if not self.engine:
+            return None
+        try:
+            with self._get_session() as session:
+                conversation = session.get(Conversation, conversation_id)
+                return conversation.to_dict() if conversation else None
+        except SQLAlchemyError as exc:
+            logger.error("Failed to get conversation %s: %s", conversation_id, exc)
+            return None
+
+    def delete_conversation(self, conversation_id: str) -> bool:
+        if not self.engine:
+            return False
+        try:
+            with self._get_session() as session:
+                conversation = session.get(Conversation, conversation_id)
+                if conversation is None:
+                    return False
+                session.query(ConversationMessageRecord).filter(
+                    ConversationMessageRecord.conversation_id == conversation_id
+                ).delete(synchronize_session=False)
+                session.delete(conversation)
+                session.commit()
+                return True
+        except SQLAlchemyError as exc:
+            logger.error("Failed to delete conversation %s: %s", conversation_id, exc)
+            return False
+
+    def save_messages(self, conversation_id: str, messages: List[Dict[str, Any]]) -> bool:
+        if not self.engine:
+            return False
+        try:
+            with self._get_session() as session:
+                session.query(ConversationMessageRecord).filter(
+                    ConversationMessageRecord.conversation_id == conversation_id
+                ).delete(synchronize_session=False)
+                for message in messages:
+                    session.add(self._message_record(conversation_id, message))
+                session.commit()
+                return True
+        except (SQLAlchemyError, TypeError, ValueError) as exc:
+            logger.error("Failed to save messages for %s: %s", conversation_id, exc)
+            return False
+
+    def get_messages(self, conversation_id: str, limit: int = 10, offset: int = 0) -> List[Dict[str, Any]]:
+        if not self.engine:
+            return []
+        try:
+            with self._get_session() as session:
+                records = (
+                    session.query(ConversationMessageRecord)
+                    .filter(ConversationMessageRecord.conversation_id == conversation_id)
+                    .order_by(ConversationMessageRecord.id.desc())
+                    .offset(max(0, offset))
+                    .limit(max(0, limit))
+                    .all()
+                )
+                return [record.to_dict() for record in reversed(records)]
+        except SQLAlchemyError as exc:
+            logger.error("Failed to get messages for %s: %s", conversation_id, exc)
+            return []
+
+    def add_message(self, conversation_id: str, message: Dict[str, Any]) -> bool:
+        if not self.engine:
+            return False
+        try:
+            with self._get_session() as session:
+                session.add(self._message_record(conversation_id, message))
+                session.commit()
+                return True
+        except (SQLAlchemyError, TypeError, ValueError) as exc:
+            logger.error("Failed to add message for %s: %s", conversation_id, exc)
+            return False
+
+    def _message_record(self, conversation_id: str, message: Dict[str, Any]) -> ConversationMessageRecord:
+        return ConversationMessageRecord(
+            conversation_id=conversation_id,
+            role=str(message.get("role") or "unknown"),
+            content=str(message.get("content") or message.get("text") or ""),
+            created_at=self._parse_datetime(
+                message.get("timestamp") or message.get("created_at"),
+                datetime.now(),
+            ),
+            message_metadata=message.get("metadata") or {},
+        )
+
+    def list_conversations(self, merchant_id: Optional[str] = None, limit: int = 50) -> List[str]:
+        if not self.engine:
+            return []
+        try:
+            with self._get_session() as session:
+                query = session.query(Conversation.id)
+                if merchant_id:
+                    query = query.filter(Conversation.merchant_id == merchant_id)
+                rows = query.order_by(Conversation.last_updated.desc()).limit(max(0, limit)).all()
+                return [row[0] for row in rows]
+        except SQLAlchemyError as exc:
+            logger.error("Failed to list conversations: %s", exc)
+            return []
 
     # === 摄取任务管理 ===
 
@@ -152,25 +322,12 @@ class PostgresStorage:
 
     def save_conversation_metadata(self, conversation_data: Dict[str, Any]) -> bool:
         """保存会话元数据"""
-        if not self.engine:
+        conversation_id = conversation_data.get("conversation_id")
+        if not conversation_id:
             return False
-
-        try:
-            with self._get_session() as session:
-                conv = Conversation(
-                    id=conversation_data["conversation_id"],
-                    merchant_id=conversation_data["merchant_id"],
-                    last_intent=conversation_data.get("last_intent"),
-                    status=conversation_data.get("status", "active"),
-                    message_count=conversation_data.get("message_count", 0)
-                )
-                session.merge(conv)
-                session.commit()
-                logger.debug(f"Saved conversation metadata {conversation_data['conversation_id']}")
-                return True
-        except SQLAlchemyError as e:
-            logger.error(f"Failed to save conversation metadata {conversation_data.get('conversation_id')}: {e}")
-            return False
+        existing = self.get_conversation(conversation_id) or {}
+        existing.update(conversation_data)
+        return self.save_conversation(conversation_id, existing)
 
     def get_conversation_metadata(self, conversation_id: str) -> Optional[Dict[str, Any]]:
         """获取会话元数据"""
@@ -187,24 +344,12 @@ class PostgresStorage:
 
     def update_conversation_metadata(self, conversation_id: str, updates: Dict[str, Any]) -> bool:
         """更新会话元数据"""
-        if not self.engine:
+        existing = self.get_conversation(conversation_id)
+        if not existing:
             return False
-
-        try:
-            with self._get_session() as session:
-                conv = session.query(Conversation).filter(Conversation.id == conversation_id).first()
-                if conv:
-                    for key, value in updates.items():
-                        if hasattr(conv, key):
-                            setattr(conv, key, value)
-                    conv.last_updated = datetime.utcnow()
-                    session.commit()
-                    logger.debug(f"Updated conversation metadata {conversation_id}")
-                    return True
-                return False
-        except SQLAlchemyError as e:
-            logger.error(f"Failed to update conversation metadata {conversation_id}: {e}")
-            return False
+        existing.update(updates)
+        existing["last_updated"] = updates.get("last_updated") or datetime.now().isoformat()
+        return self.save_conversation(conversation_id, existing)
 
     def list_conversations_metadata(self, merchant_id: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
         """列出会话元数据"""
@@ -267,12 +412,14 @@ class PostgresStorage:
             with self._get_session() as session:
                 ingestion_count = session.query(IngestionTask).count()
                 conversation_count = session.query(Conversation).count()
+                message_count = session.query(ConversationMessageRecord).count()
                 merchant_count = session.query(Merchant).count()
 
                 return {
                     "status": "connected",
                     "ingestion_tasks": ingestion_count,
                     "conversations": conversation_count,
+                    "conversation_messages": message_count,
                     "merchants": merchant_count
                 }
         except SQLAlchemyError as e:

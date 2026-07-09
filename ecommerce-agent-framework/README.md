@@ -81,6 +81,7 @@ XIAOHONGSHU_MERCHANT_ID=your_merchant_id
 
 ### 聊天接口
 - `POST /api/chat/query` - 发送聊天消息
+- `POST /api/chat/webhook/{platform}` - 平台 webhook 入口，用于接收第三方平台消息事件
 
 ### 知识库接口
 - `POST /api/knowledge/upload` - 上传知识文档

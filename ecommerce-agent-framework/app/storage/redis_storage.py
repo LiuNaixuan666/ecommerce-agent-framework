@@ -80,8 +80,9 @@ class RedisStorage:
             return False
 
         try:
-            key = self._get_key(conversation_id)
-            self.client.delete(key)
+            conversation_key = self._get_key(conversation_id)
+            messages_key = self._get_key(conversation_id, "messages")
+            self.client.delete(conversation_key, messages_key)
             logger.debug(f"Deleted conversation {conversation_id} from Redis")
             return True
         except Exception as e:
@@ -150,8 +151,11 @@ class RedisStorage:
             return []
 
         try:
-            pattern = f"conversation:*"
-            keys = self.client.keys(pattern)
+            keys = [
+                key
+                for key in self.client.scan_iter(match="conversation:*")
+                if key.count(":") == 1
+            ]
             conversation_ids = []
 
             for key in keys:
@@ -183,7 +187,11 @@ class RedisStorage:
 
         try:
             info = self.client.info()
-            keys = self.client.keys("conversation:*")
+            keys = [
+                key
+                for key in self.client.scan_iter(match="conversation:*")
+                if key.count(":") == 1
+            ]
             return {
                 "status": "connected",
                 "total_conversations": len(keys),

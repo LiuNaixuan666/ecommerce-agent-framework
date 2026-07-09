@@ -154,6 +154,18 @@ class ChatAdapter(Protocol):
         """
         ...
 
+    async def parse_webhook(self, request_data: Dict[str, Any]) -> ChatMessage:
+        """
+        Parse an incoming webhook payload into a ChatMessage.
+
+        Args:
+            request_data: Raw webhook request data
+
+        Returns:
+            Parsed ChatMessage
+        """
+        ...
+
     async def get_platform_user_info(self, user_id: str) -> Optional[Dict[str, Any]]:
         """
         Get platform user information.
